@@ -1,0 +1,84 @@
+{% extends 'layoutParticipant.html' %} {% block body %}
+<div style="border: 1px solid black; padding-left: 5px; padding-right: 55px; padding-top: 1px;">
+   <h2 style="font-size: 30px; align: center; padding-left: 470px;">Submit Feedback</h2>
+   <form role="form" class="form-horizontal" style="padding-left: 5px;" method="POST" action="/saveFeedback/{{eventId}}" enctype="multipart/form-data">
+         <div class="form-group">
+         <label class="col-lg-2 control-label">Event Name</label>
+         <div class="col-lg-6">
+            {% if eventname %}
+            <input type="text" placeholder="Event Name" id="eventname" name="eventname" class="form-control" value="{{eventname}}" required disabled/>
+            {% endif %}
+         </div>
+		 <label class="col-lg-2 control-label">Participant Name</label>
+         <div class="col-lg-2">
+            {% if prtName == null %}
+             <input type="text" placeholder="Participant Name" id="partName" name="partName" class="form-control" value="{{prtName}}" required />
+			 {% else %}
+			<input type="text" placeholder="Participant Name" id="partName" name="partName" class="form-control" value="{{prtName}}" required disabled/>
+            {% endif %}				
+         </div>
+		 </div>
+      <div class="form-group">
+         <label class="col-lg-2 control-label">Institution</label>
+         <div class="col-lg-6">
+            {% if collegeName %}
+            <input type="text" placeholder="Institution Name" id="collegeName" name="collegeName" class="form-control" value="{{collegeName}}" required disabled/>
+            {% endif %}
+         </div>
+         <label class="col-lg-2 control-label">Event Date</label>
+         <div class="col-lg-2">
+            {% if eventdate != null %}
+            <input class="form-control" type="date" id="example-date-input" id="eventdate" name="eventdate" value="{{eventdate}}" required disabled/>
+            {% endif %}				
+         </div>
+      </div>
+      <div class="form-group" id="toDiv" style="padding-left:100px">
+         <div class="col-lg-10">
+                  {% for quest in question %}
+                        <fieldset >
+                           <label class="col-lg-8 control-label" name="questionName" id="questionName"  value="{{quest['question']}}">{{quest['question']}}</label>
+                           <div class="form-group" style="padding-top:7px;padding-left:500px" id="feedback">
+                              <!--<input class="radio-inline" type="radio" name="{{quest['_id']}}" id="gridRadios1" value="{{quest['option1']}}" onclick="saveIt()">{{quest['option1']}}</label>
+                              <input class="radio-inline" type="radio" name="{{quest['_id']}}" id="gridRadios2" value="{{quest['option2']}}" onclick="saveIt()">{{quest['option2']}}</label>
+                              <input class="radio-inline" type="radio" name="{{quest['_id']}}" id="gridRadios3" value="{{quest['option3']}}" onclick="saveIt()">{{quest['option3']}}</label>-->
+							                                                      <select name="feedackRating"  id="feedackRating" style="width:253px;" required>
+                                                        <option></option>
+                                                        <option value="{{quest['option1']}}">{{quest['option1']}}</option>
+                                                        <option value="{{quest['option2']}}">{{quest['option2']}}</option>
+                                                        <option value="{{quest['option3']}}">{{quest['option3']}}</option>
+                                                    </select>
+                           </div>
+                        </fieldset>
+				  <script>
+				  var questMap = new Map();
+				  function saveIt(){
+					  feedback = ""
+					  alert(document.getElementById('questionName').innerHTML)
+					  if (document.getElementById('gridRadios1').checked)
+					  {
+						  feedback = document.getElementById('gridRadios1').value
+					  }
+					  else if (document.getElementById('gridRadios2').checked)
+					  {
+						  feedback = document.getElementById('gridRadios2').value
+					  }
+					  else if (document.getElementById('gridRadios3').checked)
+					  {
+						  feedback = document.getElementById('gridRadios3').value
+					  }
+					  questMap.set(
+				  }
+				  </script>
+                  {% endfor %}
+         </div>
+      </div>
+	  {% if not submitted %}
+      <div class="form-group">
+         <div class="col-lg-offset-2 col-lg-10">
+            <button class="btn btn-send" type="submit">Submit</button>
+         </div>
+      </div>
+	  {% endif %}
+   </form>
+</div>
+{% endblock %}
